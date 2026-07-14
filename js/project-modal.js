@@ -49,6 +49,7 @@
   var titleEl = modal.querySelector('.project-modal__title');
   var bodyEl = modal.querySelector('.project-modal__body');
   var pageEl = modal.querySelector('.project-modal__page');
+  var closeBtn = modal.querySelector('.project-modal__close');
   var lastFocused = null;
 
   function mediaHTML(item) {
@@ -67,8 +68,7 @@
     modal.classList.add('is-open');
     modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('modal-open');
-    pageEl.scrollTop = 0;
-    var closeBtn = modal.querySelector('.project-modal__close');
+    modal.scrollTop = 0;
     if (closeBtn) closeBtn.focus();
   }
 
@@ -84,9 +84,13 @@
   }
 
   document.addEventListener('click', function (e) {
-    if (e.target.closest('[data-modal-close]')) { close(); return; }
+    if (e.target.closest('.project-modal__close')) { close(); return; }
     var card = e.target.closest('.work-card[data-project]');
-    if (card) { open(card.getAttribute('data-project'), card); }
+    if (card) { open(card.getAttribute('data-project'), card); return; }
+    // клик по фону модалки — не по панели и не по крестику
+    if (e.target.closest('#project-modal') && !e.target.closest('.project-modal__page') && !e.target.closest('.project-modal__close')) {
+      close();
+    }
   });
 
   document.addEventListener('keydown', function (e) {
