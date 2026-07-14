@@ -44,23 +44,30 @@
 .work-card:hover::before{background:rgba(10,10,12,.22);}
 
 /* 7. Модалка проекта — длинная белая «простыня», скроллится вместе с фоном */
-.project-modal{position:fixed;inset:0;z-index:2000;overflow-y:auto;-webkit-overflow-scrolling:touch;visibility:hidden;background:rgba(12,12,14,0);transition:background .35s ease;}
-.project-modal.is-open{visibility:visible;background:rgba(12,12,14,.55);}
-.project-modal__page{position:relative;width:960px;max-width:calc(100vw - 200px);margin:40px auto 0;background:#fff;border-radius:40px;opacity:0;transform:translateY(24px);transition:opacity .4s cubic-bezier(.25,.46,.45,.94),transform .4s cubic-bezier(.25,.46,.45,.94);}
+.project-modal{position:fixed;inset:0;z-index:2000;overflow-y:auto;-webkit-overflow-scrolling:touch;visibility:hidden;}
+.project-modal.is-open{visibility:visible;}
+.project-modal__backdrop{position:fixed;inset:0;z-index:0;background:rgba(12,12,14,.55);opacity:0;transition:opacity .35s ease;}
+.project-modal.is-open .project-modal__backdrop{opacity:1;}
+.project-modal__page{position:relative;z-index:1;width:960px;max-width:calc(100vw - 200px);margin:40px auto 0;background:#fff;border-radius:40px;opacity:0;transform:translateY(24px);transition:opacity .4s cubic-bezier(.25,.46,.45,.94),transform .4s cubic-bezier(.25,.46,.45,.94);}
 .project-modal.is-open .project-modal__page{opacity:1;transform:translateY(0);}
 .project-modal__header{padding:48px 56px 8px;}
 .project-modal__title{font-family:'Montserrat',sans-serif;font-weight:700;font-size:28px;letter-spacing:-.01em;color:#0a0a0c;}
-.project-modal__close{position:fixed;top:40px;left:calc(50vw + 500px);z-index:2001;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:transparent;color:rgba(255,255,255,.7);cursor:pointer;opacity:0;transform:translateY(24px);transition:opacity .4s cubic-bezier(.25,.46,.45,.94),transform .4s cubic-bezier(.25,.46,.45,.94),color .2s ease;pointer-events:none;}
+.project-modal__close{position:fixed;top:32px;left:calc(50vw + 496px);z-index:2001;width:64px;height:64px;display:flex;align-items:center;justify-content:center;background:transparent;color:rgba(255,255,255,.72);cursor:pointer;opacity:0;transform:translateY(24px);transition:opacity .4s cubic-bezier(.25,.46,.45,.94),transform .4s cubic-bezier(.25,.46,.45,.94),color .2s ease;pointer-events:none;}
 .project-modal.is-open .project-modal__close{opacity:1;transform:translateY(0);pointer-events:auto;}
 .project-modal__close:hover{color:#fff;}
+.project-modal__close svg{width:36px;height:36px;}
 .project-modal__body{padding:24px 56px 64px;display:flex;flex-direction:column;gap:24px;}
 .project-modal__body img,.project-modal__body video{width:100%;display:block;border-radius:20px;box-shadow:0 8px 22px rgba(0,0,0,.08);}
 body.modal-open{overflow:hidden;}
 
-/* 8. Карьера — исходная 6-колоночная сетка, Dodo Brands расширен до 2 колонок */
+/* 8. Карьера — 5 колонок на всю ширину контента: Dodo 2, Tooba 2, список 1 */
+#container .css-qnw89b.css-ihvtun{grid-template-columns:repeat(5,1fr) !important;}
 #container .css-itnp32.css-atgcpy{grid-column:1 / span 2 !important;}
 #container .css-uz2yn2.css-atgcpy{grid-column:3 / span 2 !important;}
 #container .css-hhkbcd.css-atgcpy{grid-column:5 / span 1 !important;}
+
+/* 9. Ширина всего контента — шире (1240px вместо 1120px) */
+#container .css-fmg2w,#container .css-5v9fo4,#container .css-nucu1l,#container .css-ddsjp2,#container .css-50asmq{max-width:1240px !important;}
 </style></head>
   <body>
     
@@ -73,6 +80,7 @@ body.modal-open{overflow:hidden;}
 
      
   <div id="project-modal" class="project-modal" aria-hidden="true">
+<div class="project-modal__backdrop"></div>
 <div class="project-modal__page" role="dialog" aria-modal="true" aria-labelledby="project-modal-title">
 <header class="project-modal__header">
 <h2 class="project-modal__title" id="project-modal-title"></h2>
@@ -80,7 +88,7 @@ body.modal-open{overflow:hidden;}
 <div class="project-modal__body"></div>
 </div>
 <button type="button" class="project-modal__close" aria-label="Закрыть">
-<svg width="22" height="22" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L17 17M17 1L1 17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+<svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L17 17M17 1L1 17" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
 </button>
 </div>
 <script src="js/app.js"></script><script src="js/project-modal.js"></script></body>
