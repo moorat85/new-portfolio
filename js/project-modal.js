@@ -43,10 +43,7 @@
       ? '<img class="project-modal__shot" src="' + esc(img) + '" alt="" loading="lazy">'
       : '<div class="project-modal__shot"></div>';
     return '<div class="project-modal__block">' +
-      '<div class="pm-laptop">' +
-        '<div class="pm-laptop__screen"><span class="pm-laptop__cam"></span>' + shot + '</div>' +
-        '<div class="pm-laptop__base"><span class="pm-laptop__notch"></span></div>' +
-      '</div>' +
+      shot +
       (caption ? '<p class="project-modal__caption">' + esc(caption) + '</p>' : '') +
       '</div>';
   }
@@ -61,7 +58,13 @@
         : '<span class="project-modal__logo-ph"></span>';
     }
     titleEl.textContent = data.title;
-    if (taskEl) taskEl.textContent = data.task || '';
+    if (taskEl) {
+      var t = data.task || '';
+      var i = t.indexOf(':');
+      taskEl.innerHTML = (t && i >= 0)
+        ? '<b>' + esc(t.slice(0, i + 1)) + '</b>' + esc(t.slice(i + 1))
+        : esc(t);
+    }
     bodyEl.innerHTML = (data.blocks || []).map(blockHTML).join('');
     modal.classList.add('is-open');
     modal.setAttribute('aria-hidden', 'false');
