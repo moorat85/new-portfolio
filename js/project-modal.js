@@ -23,6 +23,8 @@
   var modal = document.getElementById('project-modal');
   if (!modal) return;
   var titleEl = modal.querySelector('.project-modal__title');
+  var logoEl = modal.querySelector('.project-modal__logo');
+  var taskEl = modal.querySelector('.project-modal__task');
   var bodyEl = modal.querySelector('.project-modal__body');
   var closeBtn = modal.querySelector('.project-modal__close');
   var lastFocused = null;
@@ -33,9 +35,18 @@
     });
   }
 
-  function blockHTML(caption) {
+  function blockHTML(block) {
+    var img = block && block.img ? block.img : '';
+    var caption = block && block.caption != null ? block.caption
+      : (typeof block === 'string' ? block : '');
+    var shot = img
+      ? '<img class="project-modal__shot" src="' + esc(img) + '" alt="" loading="lazy">'
+      : '<div class="project-modal__shot"></div>';
     return '<div class="project-modal__block">' +
-      '<div class="project-modal__shot"></div>' +
+      '<div class="pm-laptop">' +
+        '<div class="pm-laptop__screen"><span class="pm-laptop__cam"></span>' + shot + '</div>' +
+        '<div class="pm-laptop__base"><span class="pm-laptop__notch"></span></div>' +
+      '</div>' +
       (caption ? '<p class="project-modal__caption">' + esc(caption) + '</p>' : '') +
       '</div>';
   }
@@ -44,10 +55,14 @@
     var data = PROJECTS[key];
     if (!data) return;
     lastFocused = opener || document.activeElement;
+    if (logoEl) {
+      logoEl.innerHTML = data.logo
+        ? '<img src="' + esc(data.logo) + '" alt="">'
+        : '<span class="project-modal__logo-ph"></span>';
+    }
     titleEl.textContent = data.title;
-    var html = data.task ? '<p class="project-modal__task">' + esc(data.task) + '</p>' : '';
-    html += (data.blocks || []).map(blockHTML).join('');
-    bodyEl.innerHTML = html;
+    if (taskEl) taskEl.textContent = data.task || '';
+    bodyEl.innerHTML = (data.blocks || []).map(blockHTML).join('');
     modal.classList.add('is-open');
     modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('modal-open');
